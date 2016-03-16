@@ -1,0 +1,36 @@
+/var/log/nginx/* /var/log/nginx/*/* {
+        # Compress using better compression algorithm
+        compress
+        compresscmd /usr/bin/xz
+        uncompresscmd /usr/bin/unxz
+        compressoptions -9
+        # ...but leave the last one
+        delaycompress
+
+        # Rorate daily
+        daily
+
+        # If the file is missing, this is not an error
+        missingok
+
+        # Keep logs forever
+        rotate 365000
+
+        # Add a date to the file instead of serial numbers
+        dateext
+        dateformat -%Y-%m-%d
+
+        # Recreate the log files
+        create 0640 nginx nginx
+
+        # Execute POST/PRE rotate scripts only once for all files
+        sharedscripts
+        prerotate
+                if [ -d /etc/logrotate.d/httpd-prerotate ]; then
+                         run-parts /etc/logrotate.d/httpd-prerotate;
+                 fi;
+        endscript
+        postrotate
+                [ ! -f /var/run/nginx.pid ] || kill -USR1 `cat /var/run/nginx.pid`
+        endscript
+}
