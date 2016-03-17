@@ -123,4 +123,4 @@ EXPOSE 8443
 
 USER root
 WORKDIR /tmp
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
+ENTRYPOINT ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
