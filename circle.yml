@@ -1,0 +1,15 @@
+machine:
+  services:
+    - docker
+dependencies:
+  cache_directories:
+    - "~/docker-nginx"
+  override:
+    - docker info
+    - if [[ -e ~/docker-nginx/image.tar ]]; then docker load --input ~/docker-nginx/image.tar; fi
+    - docker build -t profpay/nginx .
+    - mkdir -p ~/docker-nginx; docker save --output ~/docker-nginx/image.tar profpay/nginx 
+test:
+  override:
+    - docker run -d --name=nginx profpay/nginx; sleep 10; docker ps; docker stop nginx; sleep 5; docker ps -a
+
