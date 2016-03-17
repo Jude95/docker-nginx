@@ -1,5 +1,5 @@
 FROM alpine:edge
-MAINTAINER bojan@profpay.com
+MAINTAINER Bojan Cekrlic (https://github.com/boky8) 
 
 ENV OPENRESTY_VERSION 1.9.7.3
 ENV GLIBC_VERSION 2.23-r1
