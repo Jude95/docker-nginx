@@ -19,10 +19,10 @@ RUN apk add --update curl && \
 RUN true \
  && echo " ===> Installing run-time dependecies..." \
  && apk update \
- && apk add bash curl perl unzip ca-certificates openssl pcre zlib openssl supervisor logrotate  xz
+ && apk add bash curl perl unzip ca-certificates openssl pcre zlib openssl supervisor logrotate xz
 
 RUN true \
- && echo " ===> Downloading nginx_ajp_module" \ 
+ && echo " ===> Downloading nginx_ajp_module" \
  && curl --retry 5 --max-time 120 --connect-timeout 5 -o /tmp/nginx_ajp_module.zip -SL https://github.com/yaoweibin/nginx_ajp_module/archive/master.zip \
  && cd /tmp && unzip nginx_ajp_module.zip && mv /tmp/nginx_ajp_module-master /root/nginx_ajp_module \
  && true \
@@ -40,7 +40,7 @@ RUN true \
  && adduser -D nginx \
  && apk add ${build_pkgs} \
  && true \
- && echo " ===> Downloading and installing GeoIP" \ 
+ && echo " ===> Downloading and installing GeoIP" \
  && cd /tmp \
  && curl --retry 5 --max-time 120 --connect-timeout 5 -sSL http://geolite.maxmind.com/download/geoip/api/c/GeoIP.tar.gz | tar xvz \
  && cd GeoIP-* && ./configure && make && make install \
