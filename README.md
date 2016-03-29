@@ -21,6 +21,7 @@ The NGINX also includes a full Lua JIT and Perl interpreter and is compiled with
 - Basic status information (--with-http_stub_status_module): http://nginx.org/en/docs/http/ngx_http_stub_status_module.html
 - Mail module (--with-mail): http://nginx.org/en/docs/mail/ngx_mail_core_module.html
 - SSL support for mail (--with-mail_ssl_module): http://nginx.org/en/docs/mail/ngx_mail_ssl_module.html
+- Brotli compression: https://github.com/cloudflare/ngx_brotli_module, enable with `brotli on;` in your config
 
 Notably absent are:
 - SSI, SCGI and UWSGI support
