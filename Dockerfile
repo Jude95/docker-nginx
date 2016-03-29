@@ -21,11 +21,11 @@ RUN true \
  && apk update \
  && apk add bash curl perl unzip ca-certificates openssl pcre zlib openssl supervisor logrotate xz
 
+#RUN true \
+# && echo " ===> Downloading nginx_brotli_module" \
+# && curl --retry 5 --max-time 120 --connect-timeout 5 -o /tmp/ngx_brotli_module.zip -SL https://github.com/cloudflare/ngx_brotli_module/archive/master.zip \
+# && cd /tmp && unzip ngx_brotli_module.zip && mv /tmp/ngx_brotli_module-master /root/ngx_brotli_module \
 RUN true \
- && echo " ===> Downloading nginx_brotli_module" \
- && curl --retry 5 --max-time 120 --connect-timeout 5 -o /tmp/ngx_brotli_module.zip -SL https://github.com/cloudflare/ngx_brotli_module/archive/master.zip \
- && cd /tmp && unzip ngx_brotli_module.zip && mv /tmp/ngx_brotli_module-master /root/ngx_brotli_module \
- && true \
  && echo " ===> Downloading nginx_ajp_module" \
  && curl --retry 5 --max-time 120 --connect-timeout 5 -o /tmp/nginx_ajp_module.zip -SL https://github.com/yaoweibin/nginx_ajp_module/archive/master.zip \
  && cd /tmp && unzip nginx_ajp_module.zip && mv /tmp/nginx_ajp_module-master /root/nginx_ajp_module \
@@ -73,7 +73,6 @@ RUN true \
     --lock-path=/var/lock/nginx.lock \
     --add-module=/root/nginx_ajp_module \
     --add-module=/root/nginx_upstream_check_module \
-    --add-module=/root/ngx_brotli_module \
     --user=nginx \
     --group=nginx \
     --with-threads \
