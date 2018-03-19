@@ -1,6 +1,7 @@
 #!/bin/sh
 
 # Clean non existent log file entries from status file
+mkdir -p /var/lib/logrotate
 cd /var/lib/logrotate
 test -e status || touch status
 head -1 status > status.clean
