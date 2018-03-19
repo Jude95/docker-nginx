@@ -1,14 +1,19 @@
 FROM alpine:edge
-MAINTAINER Bojan Cekrlic (https://github.com/boky8) 
+LABEL maintainer="Bojan Cekrlic (https://github.com/boky8)"
 
-ENV OPENRESTY_VERSION 1.9.7.3
-ENV GLIBC_VERSION 2.23-r1
+ENV OPENRESTY_VERSION 1.13.6.1
+ENV GLIBC_VERSION 2.27-r0
 
-# Download and install glibc
-RUN apk add --update curl && \
+# Update Alphine, download and install glibc
+RUN \
+  apk update && apk upgrade && \
+  apk add curl && \
+  echo " ===> Downloading GLIBC ${GLIBC_VERSION}..." && \
   curl -o glibc.apk -L "https://github.com/andyshinn/alpine-pkg-glibc/releases/download/${GLIBC_VERSION}/glibc-${GLIBC_VERSION}.apk" && \
-  apk add --allow-untrusted glibc.apk && \
+  echo " ===> Downloading GLIBC-BIN ${GLIBC_VERSION}..." && \
   curl -o glibc-bin.apk -L "https://github.com/andyshinn/alpine-pkg-glibc/releases/download/${GLIBC_VERSION}/glibc-bin-${GLIBC_VERSION}.apk" && \
+  echo " ===> Installing GLIBC and GLIBC-BIN..." && \
+  apk add --allow-untrusted glibc.apk && \
   apk add --allow-untrusted glibc-bin.apk && \
   /usr/glibc-compat/sbin/ldconfig /lib /usr/glibc/usr/lib && \
   echo 'hosts: files mdns4_minimal [NOTFOUND=return] dns mdns4' >> /etc/nsswitch.conf && \
@@ -16,10 +21,9 @@ RUN apk add --update curl && \
   rm -f glibc.apk glibc-bin.apk && \
   rm -rf /var/cache/apk/*
 
-RUN true \
- && echo " ===> Installing run-time dependecies..." \
- && apk update \
- && apk add bash curl perl unzip ca-certificates openssl pcre zlib openssl supervisor logrotate xz
+RUN \
+  echo " ===> Installing run-time dependecies..." && \
+  apk add bash curl perl unzip ca-certificates openssl pcre zlib openssl supervisor logrotate xz
 
 #RUN true \
 # && echo " ===> Downloading nginx_brotli_module" \
@@ -51,7 +55,7 @@ RUN true \
  && true \
  && mkdir -p /root/ngx_openresty \
  && cd /root/ngx_openresty \
- && echo " ===> Downloading OpenResty..." \
+ && echo " ===> Downloading OpenResty ${OPENRESTY_VERSION}..." \
  && curl -sSL http://openresty.org/download/openresty-${OPENRESTY_VERSION}.tar.gz | tar -xvz \
  && cd openresty-* \
  && echo " ===> Configuring OpenResty..." \
