@@ -27,11 +27,6 @@ RUN true \
  && apk add bash curl perl unzip ca-certificates openssl pcre zlib openssl supervisor logrotate xz gd libxslt \
  && rm -rf /var/cache/apk/* \
 # RUN true \
- && echo " ===> Downloading GeoIP data..." \
- && mkdir -p /usr/local/share/GeoIP/ && cd /usr/local/share/GeoIP/ \
- && curl -C - --retry 5 --max-time 120 --connect-timeout 5 -sSL http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz | gunzip > GeoLiteCity.dat \
- && curl -C - --retry 5 --max-time 120 --connect-timeout 5 -sSL http://geolite.maxmind.com/download/geoip/database/GeoLiteCountry/GeoIP.dat.gz| gunzip > GeoIP.dat \
-# RUN true \
  && mkdir -p "/usr/src" \
  && echo " ===> Downloading nginx_brotli_module" \
  && curl -C - --retry 5 --max-time 120 --connect-timeout 5 -sSL -o /tmp/ngx_brotli_module.zip -SL https://github.com/cloudflare/ngx_brotli_module/archive/master.zip \
@@ -51,14 +46,9 @@ RUN true \
  && cd /tmp && unzip nginx_upstream_check_module.zip && mv /tmp/nginx_upstream_check_module-master /usr/src/nginx_upstream_check_module \
 # RUN true \
  && echo " ===> Installing dependencies..." \
- && build_pkgs="build-base linux-headers autoconf automake cmake g++ gcc gd-dev geoip-dev git libc-dev libtool libxslt-dev make ncurses-dev openssl-dev pcre-dev perl-dev readline-dev wget zlib-dev" \
+ && build_pkgs="build-base linux-headers autoconf automake cmake g++ gcc gd-dev git libc-dev libtool libxslt-dev make ncurses-dev openssl-dev pcre-dev perl-dev readline-dev wget zlib-dev" \
  && addgroup -S nginx && adduser -D -S -h /var/cache/nginx -s /sbin/nologin -G nginx nginx \
  && apk add ${build_pkgs} \
- && true \
- && echo " ===> Downloading and installing GeoIP" \
- && cd /tmp \
- && curl --retry 5 --max-time 120 --connect-timeout 5 -sSL $(curl -s https://api.github.com/repos/maxmind/geoip-api-c/releases/latest | grep browser_download_url | cut -d '"' -f 4) | tar xvz \
- && cd GeoIP-* && ./configure && make && make install \
  && true \
  && mkdir -p /usr/src/ngx_openresty \
  && cd /usr/src/ngx_openresty \
@@ -114,7 +104,6 @@ RUN true \
     --with-http_stub_status_module \
     --with-http_xslt_module=dynamic \
     --with-http_image_filter_module=dynamic \
-    --with-http_geoip_module=dynamic \
     --with-http_perl_module=dynamic \
     --with-mail \
     --with-mail_ssl_module \
