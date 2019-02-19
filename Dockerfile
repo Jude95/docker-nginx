@@ -1,4 +1,4 @@
-FROM alpine:edge
+FROM python:3.6-alpine
 LABEL maintainer="Bojan Cekrlic (https://github.com/boky8)"
 
 ENV OPENRESTY_VERSION 1.13.6.1
