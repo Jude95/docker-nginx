@@ -1,5 +1,5 @@
 FROM python:3.6-alpine
-LABEL maintainer="Bojan Cekrlic (https://github.com/boky8)"
+LABEL maintainer="Jude95 (https://github.com/Jude95)"
 
 ENV OPENRESTY_VERSION 1.13.6.1
 ENV GLIBC_VERSION 2.27-r0
