@@ -57,7 +57,7 @@ RUN true \
  && true \
  && echo " ===> Downloading and installing GeoIP" \
  && cd /tmp \
- && curl --retry 5 --max-time 120 --connect-timeout 5 -sSL http://geolite.maxmind.com/download/geoip/api/c/GeoIP.tar.gz | tar xvz \
+ && curl --retry 5 --max-time 120 --connect-timeout 5 -sSL $(curl -s https://api.github.com/repos/maxmind/geoip-api-c/releases/latest | grep browser_download_url | cut -d '"' -f 4) | tar xvz \
  && cd GeoIP-* && ./configure && make && make install \
  && true \
  && mkdir -p /usr/src/ngx_openresty \
